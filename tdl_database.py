@@ -88,3 +88,13 @@ def change_password(id_no, old_password, new_password):
     conn.commit()
     return cursor.rowcount == 1
 
+
+def change_email(id_no, old_email, new_email):
+    sql = "UPDATE login SET email = %s WHERE id = %s AND email = %s"
+    val = (new_email, id_no, old_email)
+    cursor.execute(sql, val)
+    conn.commit()
+    return cursor.rowcount == 1
+
+
+print(change_email(1, "aydnibrahim22@gmail.com", "newaydnibrahim22@gmail.com"))
