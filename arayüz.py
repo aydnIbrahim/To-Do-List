@@ -1,6 +1,5 @@
 from tkinter import *
 
-
 main_page = Tk()
 main_page.title("To Do List")
 main_page.geometry("700x400+500+350")
@@ -21,10 +20,21 @@ metin = StringVar(main_page, value="Merhaba")
 text_field = Text(main_page, width=80, height=5)
 text_field.place(x=12, y=300)
 
-complete_button = Button(main_page, text="Tamamla")
+
+def complete_task():
+    value = lb.get(lb.curselection()[0])
+    print(value)
+
+
+def delete_task():
+    value = lb.get(lb.curselection()[0])
+    print(value)
+
+
+complete_button = Button(main_page, text="Tamamla", command=complete_task)
 complete_button.place(x=15, y=15)
 
-delete_button = Button(main_page, text="Sil")
+delete_button = Button(main_page, text="Sil", command=delete_task)
 delete_button.place(x=110, y=15)
 
 
