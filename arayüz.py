@@ -57,4 +57,4 @@ complete_button.place(x=15, y=15)
 delete_button = Button(main_page, text="Sil", command=delete_task)
 delete_button.place(x=110, y=15)
 
-main_page.mainloop()
+# main_page.mainloop()
