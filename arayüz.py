@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 main_page = Tk()
 main_page.title("To Do List")
-main_page.geometry("700x400+500+350")
+main_page.geometry("700x350+500+350")
 main_page.config(bg="#323131")
 main_page.resizable(False, False)
 
