@@ -1,3 +1,5 @@
+import login_page
+
 import customtkinter as ctk
 from tkinter import *
 from tkinter import messagebox
@@ -9,8 +11,9 @@ fg_color_cerceve = '#ae550c'
 
 root = ctk.CTk()
 root.title("Kayıt Ol")
-root.geometry('373x440+400+300')
+root.geometry('373x500+650+300')
 root.grid_propagate(False)
+root.resizable(False, False)
 root.grid_rowconfigure(0, weight=1)
 root.grid_columnconfigure(0, weight=1)
 
@@ -53,7 +56,7 @@ sifre_onayla_cerceve = ctk.CTkFrame(panel, fg_color='#333', corner_radius=10)
 sifre_onayla_cerceve.pack(pady=15, padx=20)
 
 # Şifre onayla label oluşturur
-sifre_onayla_label = ctk.CTkLabel(sifre_onayla_cerceve, text='Şifre Onayla ', text_color='#fff', corner_radius=10,
+sifre_onayla_label = ctk.CTkLabel(sifre_onayla_cerceve, text='Şifre ', text_color='#fff', corner_radius=10,
                            font=('Pt Mono', 14))
 sifre_onayla_label.pack(side=LEFT, padx=(5, 25))
 
@@ -127,4 +130,25 @@ canvas_eye.tag_bind(eye_slash_button_sifre, '<Button-1>', on_eye_slash_click)
 canvas_eye_onayla.tag_bind(eye_button_sifre_onayla, '<Button-1>', on_eye_click_onayla)
 canvas_eye_onayla.tag_bind(eye_slash_button_sifre_onayla, '<Button-1>', on_eye_slash_click_onayla)
 
+
+def kayit_ol():
+    print('kayit olundu')
+    root.destroy()
+
+
+kayit_ol_buton = ctk.CTkButton(panel, text='Kayıt Ol', fg_color='#0052cc', hover_color='#003380', text_color='#fff',
+                               corner_radius=10, width=170, command=kayit_ol)
+kayit_ol_buton.pack(pady=30, padx=30)
+
+
+def hesap_varsa_giris_yap():
+    print('hesap varsa giris yapildi')
+
+
+# hesap varsa giriş yap butonu oluşturur
+hesap_varsa_giris_yap_buton = ctk.CTkButton(panel, text='Bir hesabın mı var? Giriş Yap!', fg_color='#333',
+                                            hover_color='#333', command=hesap_varsa_giris_yap())
+hesap_varsa_giris_yap_buton.pack(pady=30, padx=30)
+
 root.mainloop()
+
