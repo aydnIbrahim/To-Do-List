@@ -6,7 +6,7 @@ from PIL import ImageTk, Image
 
 # Ana pencereyi oluştur
 root = ctk.CTk()
-root.title('Görev Listesi')
+root.title('To Do')
 root.geometry('800x500+400+300')
 root.grid_propagate(False)
 root.grid_rowconfigure(0, weight=1)
@@ -100,9 +100,9 @@ buton_resmi = PhotoImage(file="person.png")
 canvas_eye.create_image(50, 50, image=buton_resmi)
 
 # Kullanıcı isim alanı
-metin_alani = ctk.CTkLabel(sag_panel, text="MUAZZEZ ABACI", text_color="#ffffff", corner_radius=10,
-                           font=('Pt Mono', 22))
-metin_alani.pack(pady=(0, 40), fill='x', padx=10)
+isim_alani = ctk.CTkLabel(sag_panel, text="MUAZZEZ ABACI", text_color="#ffffff", corner_radius=10,
+                          font=('Pt Mono', 22))
+isim_alani.pack(pady=(0, 40), fill='x', padx=10)
 
 # E-posta güncelleme metin giriş alanı
 guncelle_eposta_entry = ctk.CTkEntry(sag_panel, placeholder_text="Yeni e-posta adresin", fg_color="#444444",
