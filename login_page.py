@@ -1,3 +1,5 @@
+import signup_page
+
 import customtkinter as ctk
 from tkinter import *
 from tkinter import messagebox
@@ -8,8 +10,8 @@ fg_color = '#333333'
 fg_color_cerceve = '#ae550c'
 
 root = ctk.CTk()
-root.title("Login")
-root.geometry('373x440+400+300')
+root.title("Giriş Yap")
+root.geometry('373x440+650+300')
 root.grid_propagate(False)
 root.resizable(False, False)
 root.grid_rowconfigure(0, weight=1)
@@ -35,7 +37,6 @@ email_label.pack(side=LEFT, padx=5)
 email_entry = ctk.CTkEntry(email_cerceve, placeholder_text='E-Posta adresin', fg_color=fg_color_cerceve,
                            text_color='#fff', corner_radius=10, border_width=0, width=200)
 email_entry.pack(side=LEFT, padx=5)
-
 
 # Şifre girişi çerçevesi
 sifre_cerceve = ctk.CTkFrame(panel, fg_color='#333', corner_radius=10)
@@ -99,13 +100,14 @@ giris_yap_buton.pack(pady=30, padx=30)
 
 
 def hesap_yoksa_kayit_ol():
-    print('hesap yoksa giris yapildi')
+    root.destroy()
+    signup_page.mainloop()
+    print('hesap yoksa kayit olundu')
 
 
 # Hesap yoksa kayıt ol butonu oluşturur
 hesap_yoksa_kayit_ol_buton = ctk.CTkButton(panel, text='Bir hesabın yok mu? Hemen kayıt ol!', fg_color='#333',
                                            hover_color='#333', command=hesap_yoksa_kayit_ol)
 hesap_yoksa_kayit_ol_buton.pack(pady=30, padx=30)
-
 
 root.mainloop()
