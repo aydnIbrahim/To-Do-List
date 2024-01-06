@@ -1,4 +1,4 @@
-import login_page
+import os
 
 import customtkinter as ctk
 from tkinter import *
@@ -6,24 +6,52 @@ from tkinter import messagebox
 
 from PIL import ImageTk, Image
 
+import tdl_database
+
 fg_color = '#333'
 fg_color_cerceve = '#ae550c'
 
-root = ctk.CTk()
-root.title("Kayıt Ol")
-root.geometry('373x500+650+300')
-root.grid_propagate(False)
-root.resizable(False, False)
-root.grid_rowconfigure(0, weight=1)
-root.grid_columnconfigure(0, weight=1)
+signup_page = ctk.CTk()
+signup_page.title("Kayıt Ol")
+signup_page.geometry('373x620+650+300')
+signup_page.grid_propagate(False)
+signup_page.resizable(False, False)
+signup_page.grid_rowconfigure(0, weight=1)
+signup_page.grid_columnconfigure(0, weight=1)
 
 # panel oluşturma
-panel = ctk.CTkFrame(root, fg_color=fg_color, corner_radius=10)
+panel = ctk.CTkFrame(signup_page, fg_color=fg_color, corner_radius=10)
 panel.place(x=15, y=15)
 
 # Hoşgeldin başlığı
 hosgeldin_title = ctk.CTkLabel(panel, text="HOŞGELDİN", text_color='#fff', corner_radius=10, font=('Pt Mono', 40))
 hosgeldin_title.pack(pady=(15, 50), fill='x', padx=15)
+
+# İsim giriş çerçevesi oluşturur
+isim_cerceve = ctk.CTkFrame(panel, fg_color='#333', corner_radius=10)
+isim_cerceve.pack(pady=15, padx=20)
+
+# İsim label oluşturur
+isim_label = ctk.CTkLabel(isim_cerceve, text='İsim', text_color='#fff', corner_radius=10, font=('Pt Mono', 14))
+isim_label.pack(side=LEFT, padx=(5, 33))
+
+# İsim giriş alanı oluşturur
+isim_entry = ctk.CTkEntry(isim_cerceve, placeholder_text='İsmin', fg_color=fg_color_cerceve, text_color='#fff',
+                          corner_radius=10, border_width=0, width=200)
+isim_entry.pack(side=LEFT, padx=5)
+
+# Soy isim çerçevesi oluşturur
+soy_isim_cerceve = ctk.CTkFrame(panel, fg_color='#333', corner_radius=10)
+soy_isim_cerceve.pack(pady=15, padx=20)
+
+# Soy isim label oluşturur
+soy_isim_label = ctk.CTkLabel(soy_isim_cerceve, text='Soy isim', text_color='#fff', corner_radius=10, font=('Pt Mono', 14))
+soy_isim_label.pack(side=LEFT, padx=5)
+
+# Soy isim giriş alanı oluşturur
+soy_isim_entry = ctk.CTkEntry(soy_isim_cerceve, placeholder_text='Soy ismin', fg_color=fg_color_cerceve, text_color='#fff',
+                              corner_radius=10, border_width=0, width=200)
+soy_isim_entry.pack(side=LEFT, padx=5)
 
 # Email giriş çerçevesi
 email_cerceve = ctk.CTkFrame(panel, fg_color='#333', corner_radius=10)
@@ -132,8 +160,14 @@ canvas_eye_onayla.tag_bind(eye_slash_button_sifre_onayla, '<Button-1>', on_eye_s
 
 
 def kayit_ol():
+    if isim_entry.get() and soy_isim_entry.get() and email_entry.get() and sifre_entry.get() and sifre_entry_onayla.get():
+        if sifre_entry.get() == sifre_entry_onayla.get():
+            print(tdl_database.signup(isim_entry.get(), soy_isim_entry.get(), email_entry.get(), sifre_entry.get()))
+        else:
+            messagebox.showerror(title='', message='Şifreler eşleşmiyor')
+    else:
+        messagebox.showerror(title='', message='Bilgiler boş olmamalıdır.')
     print('kayit olundu')
-    root.destroy()
 
 
 kayit_ol_buton = ctk.CTkButton(panel, text='Kayıt Ol', fg_color='#0052cc', hover_color='#003380', text_color='#fff',
@@ -142,13 +176,14 @@ kayit_ol_buton.pack(pady=30, padx=30)
 
 
 def hesap_varsa_giris_yap():
-    print('hesap varsa giris yapildi')
+    signup_page.destroy()
+    os.system('python LoginPage.py')
 
 
 # hesap varsa giriş yap butonu oluşturur
 hesap_varsa_giris_yap_buton = ctk.CTkButton(panel, text='Bir hesabın mı var? Giriş Yap!', fg_color='#333',
-                                            hover_color='#333', command=hesap_varsa_giris_yap())
+                                            hover_color='#333', command=hesap_varsa_giris_yap)
 hesap_varsa_giris_yap_buton.pack(pady=30, padx=30)
 
-root.mainloop()
+signup_page.mainloop()
 

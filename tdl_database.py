@@ -38,7 +38,7 @@ def view_tasks(id_no):
     cursor.execute(sql, val)
     result = ""
     for row in cursor.fetchall():
-        result += row[0] + "\n"
+        result += row
     return result
 
 
@@ -97,4 +97,11 @@ def change_email(id_no, old_email, new_email):
     return cursor.rowcount == 1
 
 
-print(change_email(1, "aydnibrahim22@gmail.com", "newaydnibrahim22@gmail.com"))
+def get_id_no(email):
+    sql = "SELECT id FROM login WHERE email = %s"
+    val = (email,)
+    cursor.execute(sql, val)
+    result = cursor.fetchone()
+    if result:
+        return result
+

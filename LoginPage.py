@@ -1,4 +1,5 @@
-import signup_page
+import os
+import config
 
 import customtkinter as ctk
 from tkinter import *
@@ -6,19 +7,23 @@ from tkinter import messagebox
 
 from PIL import Image, ImageTk
 
+import tdl_database
+
+id_no: int
+
 fg_color = '#333333'
 fg_color_cerceve = '#ae550c'
 
-root = ctk.CTk()
-root.title("Giriş Yap")
-root.geometry('373x440+650+300')
-root.grid_propagate(False)
-root.resizable(False, False)
-root.grid_rowconfigure(0, weight=1)
-root.grid_columnconfigure(0, weight=1)
+login_page = ctk.CTk()
+login_page.title("Giriş Yap")
+login_page.geometry('373x440+650+300')
+login_page.grid_propagate(False)
+login_page.resizable(False, False)
+login_page.grid_rowconfigure(0, weight=1)
+login_page.grid_columnconfigure(0, weight=1)
 
 # panel oluşturma
-panel = ctk.CTkFrame(root, fg_color=fg_color, corner_radius=10)
+panel = ctk.CTkFrame(login_page, fg_color=fg_color, corner_radius=10)
 panel.place(x=15, y=15)
 
 # Hoşgeldin başlığı
@@ -90,7 +95,19 @@ canvas_eye.tag_bind(eye_slash_button, '<Button-1>', on_eye_slash_click)
 
 
 def giris_yap():
-    print('giris yapildi')
+    if email_entry.get() and sifre_entry.get():
+        email = email_entry.get()
+        r = tdl_database.signin(email, sifre_entry.get())
+        if r:
+            messagebox.showinfo(title='', message='Giriş başarılı.')
+            login_page.destroy()
+            global id_no
+            id_no = int(tdl_database.get_id_no(email)[0])
+            os.system('python main_page.py')
+        else:
+            messagebox.showerror(title='', message='Giriş bilgileri eşleşmiyor.')
+    else:
+        messagebox.showerror(title='', message='Giriş bilgileri boş olmamalıdır.')
 
 
 # Giriş Yap butonu oluşturur
@@ -100,9 +117,8 @@ giris_yap_buton.pack(pady=30, padx=30)
 
 
 def hesap_yoksa_kayit_ol():
-    root.destroy()
-    signup_page.mainloop()
-    print('hesap yoksa kayit olundu')
+    login_page.destroy()
+    os.system('python signup_page.py')
 
 
 # Hesap yoksa kayıt ol butonu oluşturur
@@ -110,4 +126,9 @@ hesap_yoksa_kayit_ol_buton = ctk.CTkButton(panel, text='Bir hesabın yok mu? Hem
                                            hover_color='#333', command=hesap_yoksa_kayit_ol)
 hesap_yoksa_kayit_ol_buton.pack(pady=30, padx=30)
 
-root.mainloop()
+@staticmethod
+def get_user_id():
+    return id_no
+
+
+login_page.mainloop()

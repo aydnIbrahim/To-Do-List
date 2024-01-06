@@ -1,8 +1,4 @@
-import customtkinter as ctk
-from tkinter import *
-from tkinter import messagebox
 
-from PIL import ImageTk, Image
 
 # Ana pencereyi oluştur
 root = ctk.CTk()
@@ -23,9 +19,9 @@ sag_panel.place(x=570, y=15)
 
 
 def tamamla_gorev():
-    selected_indicies = listbox.curselection()
+    selected_indicies = listbox_task.curselection()
     if selected_indicies:
-        selected_item = listbox.get(selected_indicies[0])
+        selected_item = listbox_task.get(selected_indicies[0])
         print(selected_item)
         r = messagebox.askokcancel(title="", message="Bu görevi tamamlamak istediğine emin misin?")
         if r:
@@ -37,10 +33,9 @@ def tamamla_gorev():
 
 
 def sil_gorev():
-    selected_indicies = listbox.curselection()
+    selected_indicies = listbox_task.curselection()
     if selected_indicies:
-        selected_item = listbox.get(selected_indicies[0])
-        print(selected_item)
+        selected_item = listbox_task.get(selected_indicies[0])
         r = messagebox.askokcancel(title="", message="Bu görevi silmek istediğine emin misin?")
         if r:
             print("Sil doğru")
@@ -66,8 +61,11 @@ sil_buton = ctk.CTkButton(buton_cerceve, text="Sil", fg_color="#cc000e", hover_c
 sil_buton.pack(side=LEFT, padx=5)
 
 # Listbox'u oluştur ve stilini ayarla
-listbox = Listbox(panel, bg="#222222", fg="#ffffff", highlightthickness=0, borderwidth=0, width=60, height=19)
-listbox.pack(pady=(5, 10), fill='both', expand=True)
+listbox_task = Listbox(panel, bg="#222222", fg="#ffffff", highlightthickness=0, borderwidth=0, width=60, height=13)
+listbox_task.pack(pady=(5, 0), fill='both', expand=True)
+
+listbox_completed = Listbox(panel, bg="#222222", fg="#ffffff", highlightthickness=0, borderwidth=0, width=60, height=6)
+listbox_completed.pack(pady=(0, 18), fill='both', expand=True)
 
 # Entry bileşenini oluştur ve stilini ayarla
 gorev_entry = ctk.CTkEntry(panel, placeholder_text="Görev ekle", fg_color="#444444", text_color="#ffffff",
@@ -79,7 +77,7 @@ gorev_entry.pack(pady=(10, 5), fill='x', padx=10)
 def ekle_gorev():
     gorev = gorev_entry.get()
     if gorev != "":
-        listbox.insert(END, gorev)
+        listbox_task.insert(END, gorev)
         gorev_entry.delete(0, END)
 
 
@@ -100,8 +98,8 @@ buton_resmi = PhotoImage(file="person.png")
 canvas_eye.create_image(50, 50, image=buton_resmi)
 
 # Kullanıcı isim alanı
-isim_alani = ctk.CTkLabel(sag_panel, text="MUAZZEZ ABACI", text_color="#ffffff", corner_radius=10,
-                          font=('Pt Mono', 22))
+isim_alani = ctk.CTkLabel(sag_panel, text=f"",
+                          text_color="#ffffff", corner_radius=10, font=('Pt Mono', 22))
 isim_alani.pack(pady=(0, 40), fill='x', padx=10)
 
 # E-posta güncelleme metin giriş alanı
