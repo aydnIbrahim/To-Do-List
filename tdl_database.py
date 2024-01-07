@@ -53,8 +53,9 @@ def view_completed_tasks(id_no, tag='completed'):
 
 
 def complete_task(id_no, task):
-    sql = "UPDATE todo SET tag = 'completed' WHERE id = %s AND task = %s"
-    val = (id_no, task)
+    task_ = '\u0336'.join(task) + '\u0336'
+    sql = "UPDATE todo SET tag = 'completed', task = %s WHERE id = %s AND task = %s"
+    val = (task_, id_no, task)
     cursor.execute(sql, val)
     conn.commit()
     return cursor.rowcount == 1

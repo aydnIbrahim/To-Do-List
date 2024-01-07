@@ -378,11 +378,6 @@ class MainPage:
                                     width=60, height=13)
         self.listbox_task.pack(pady=(5, 0), fill='both', expand=True)
 
-        # Tamamlanmış görevler label
-        self.completed_tasks_label = ctk.CTkLabel(self.panel, text='Tamamlanmış görevler', text_color='#fff',
-                                                  corner_radius=10, font=('Pt Mono', 14))
-        self.completed_tasks_label.pack(pady=2)
-
         # tamamlanmış görevleri tutan listbox
         self.listbox_completed = Listbox(self.panel, bg="#222222", fg="#ffffff", highlightthickness=0, borderwidth=0,
                                          width=60, height=6)
@@ -494,20 +489,33 @@ class MainPage:
             r = messagebox.askokcancel(title="", message="Bu görevi tamamlamak istediğine emin misin?")
             if r:
                 tdl_database.complete_task(user_id, selected_item)
-                self.listbox_completed.insert(END, selected_item)
+                self.listbox_completed.insert(END, '\u0336'.join(selected_item) + '\u0336')
                 self.listbox_task.delete(selected_indicies)
         else:
             messagebox.showerror(title='', message="Önce bir görev seçin")
 
     def sil_gorev(self):
-        selected_indicies = self.listbox_task.curselection()
-        if selected_indicies:
-            selected_item = self.listbox_task.get(selected_indicies[0])
+        selected_indicies_active = self.listbox_task.curselection()
+        selected_indicies_completed = self.listbox_completed.curselection()
+        if selected_indicies_active:
+            selected_item_active = self.listbox_task.get(selected_indicies_active[0])
             r = messagebox.askokcancel(title="", message="Bu görevi silmek istediğine emin misin?")
             if r:
-                s = tdl_database.remove_task(user_id, selected_item)
+                s = tdl_database.remove_task(user_id, selected_item_active)
                 if s:
-                    self.listbox_task.delete(selected_indicies)
+                    self.listbox_task.delete(selected_indicies_active)
+                    messagebox.showinfo(title='', message="Bu görev başarıyla silindi.")
+                else:
+                    messagebox.showerror(title='', message="Bu görev silirken bir hata oluştu.")
+            else:
+                messagebox.showinfo(title='', message="Bu görev silinmedi.")
+        elif selected_indicies_completed:
+            selected_item_completed = self.listbox_completed.get(selected_indicies_completed[0])
+            rr = messagebox.askokcancel(title="", message="Bu görevi silmek istediğine emin misin?")
+            if rr:
+                ss = tdl_database.remove_task(user_id, selected_item_completed)
+                if ss:
+                    self.listbox_completed.delete(selected_indicies_completed)
                     messagebox.showinfo(title='', message="Bu görev başarıyla silindi.")
                 else:
                     messagebox.showerror(title='', message="Bu görev silirken bir hata oluştu.")
