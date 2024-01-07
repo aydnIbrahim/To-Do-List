@@ -10,7 +10,7 @@ conn = mysql.connector.connect(
 cursor = conn.cursor()
 
 
-def add_task(id_no, task, tag="blue"):
+def add_task(id_no, task, tag="active"):
     sql_check = "SELECT * FROM todo WHERE id = %s AND task = %s"
     val_check = (id_no, task)
     cursor.execute(sql_check, val_check)
@@ -32,18 +32,28 @@ def remove_task(id_no, task):
     return cursor.rowcount > 0
 
 
-def view_tasks(id_no):
-    sql = "SELECT task FROM todo WHERE id = %s"
-    val = (id_no,)
+def view_tasks(id_no, tag='active'):
+    sql = "SELECT task FROM todo WHERE id = %s AND tag = %s"
+    val = (id_no, tag)
     cursor.execute(sql, val)
     result = ""
     for row in cursor.fetchall():
-        result += row
-    return result
+        result += row[0] + ", "
+    return result[:-2]
+
+
+def view_completed_tasks(id_no, tag='completed'):
+    sql = "SELECT task FROM todo WHERE id = %s AND tag = %s"
+    val = (id_no, tag)
+    cursor.execute(sql, val)
+    result = ""
+    for row in cursor.fetchall():
+        result += row[0] + ", "
+    return result[:-2]
 
 
 def complete_task(id_no, task):
-    sql = "UPDATE todo SET tag = 'Completed' WHERE id = %s AND task = %s"
+    sql = "UPDATE todo SET tag = 'completed' WHERE id = %s AND task = %s"
     val = (id_no, task)
     cursor.execute(sql, val)
     conn.commit()
@@ -51,14 +61,21 @@ def complete_task(id_no, task):
 
 
 def signup(name, surname, email, password):
-    password_bytes = password.encode("utf-8")
-    hash256 = hashlib.sha256(password_bytes)
-    password_hash = hash256.hexdigest()
-    sql = "INSERT INTO login (name, surname, email, password) VALUES (%s, %s, %s, %s)"
-    val = (name, surname, email, password_hash)
-    cursor.execute(sql, val)
-    conn.commit()
-    return cursor.rowcount == 1
+    sql_control = "SELECT email FROM login WHERE email = %s"
+    val_control = (email,)
+    cursor.execute(sql_control, val_control)
+    result = cursor.fetchone()
+    if result:
+        return False
+    else:
+        password_bytes = password.encode("utf-8")
+        hash256 = hashlib.sha256(password_bytes)
+        password_hash = hash256.hexdigest()
+        sql = "INSERT INTO login (name, surname, email, password) VALUES (%s, %s, %s, %s)"
+        val = (name, surname, email, password_hash)
+        cursor.execute(sql, val)
+        conn.commit()
+        return cursor.rowcount == 1
 
 
 def signin(email, password):
@@ -105,3 +122,13 @@ def get_id_no(email):
     if result:
         return result
 
+
+def get_name_surname(email):
+    sql = "SELECT name, surname FROM login WHERE email = %s"
+    val = (email,)
+    cursor.execute(sql, val)
+    result = ''
+    for row in cursor.fetchall():
+        result += row[0] + ' '
+        result += row[1]
+    return result.upper()
