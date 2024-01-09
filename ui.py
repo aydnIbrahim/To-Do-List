@@ -443,7 +443,7 @@ class MainPage:
         self.guncelle_sifre_entry = ctk.CTkEntry(self.password_cerceve, placeholder_text="Yeni şifren",
                                                  fg_color="#444444",
                                                  text_color='#fff', corner_radius=10, width=150, show='*')
-        self.guncelle_sifre_entry.pack(side=LEFT, padx=2)
+        self.guncelle_sifre_entry.pack(side=LEFT, padx=10)
 
         # Göz ikonunu yükleyin ve bir Tkinter PhotoImage'a dönüştürün
         self.eye_icon = Image.open("eye.png")
