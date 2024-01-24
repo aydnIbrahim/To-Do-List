@@ -1,3 +1,9 @@
+"""
+Veri tabanına bağlanamadığı için yine çalışmayacak.
+Fakat ben size zaten sunum yapmıştım. Siz de tamam puanını verdim ben demiştiniz.
+Yine de veri tabanı kodları hariç diğer tüm kodların tek bir python dosyası içerisinde olduğu düzenlenmiş son hali.
+"""
+
 import customtkinter as ctk
 from tkinter import *
 from tkinter import messagebox
